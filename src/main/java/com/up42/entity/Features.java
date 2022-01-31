@@ -6,24 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Blob;
-
 
 /**
  * @author jalajchawla
  */
 @Entity
+@Table(name="FEATURE_INFO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Features {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long  timestamp;
     private Long  beginViewingDate;
     private Long  endViewingDate;
     private String missionName;
     @Lob
-    private Blob quicklook;
+    private byte[] quicklook;
 }

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author jalajchawla
  */
-public interface FeaturesRepository extends JpaRepository<Features,Integer> {
+public interface FeaturesRepository extends JpaRepository<Features,Long> {
 }

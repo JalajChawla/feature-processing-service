@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public class FeaturesManagerServiceImpl implements FeatureManagerService {
     }
 
     @Override
-    public FeaturesDto fetchFeaturesById(Integer featureId) throws FeatureNotFoundException {
+    public FeaturesDto fetchFeaturesById(Long featureId) throws FeatureNotFoundException {
         Features feature = featuresRepository.findById(featureId)
                 .orElseThrow(() -> new FeatureNotFoundException(featureId + " feature not found"));
         convertFeatureToFeatureDto(feature);
@@ -51,24 +53,21 @@ public class FeaturesManagerServiceImpl implements FeatureManagerService {
     }
 
     @Override
-    public BufferedImage fetchFeaturesImageById(Integer featureId) throws FeatureNotFoundException {
+    public byte[] fetchFeaturesImageById(Long featureId) throws FeatureNotFoundException {
         Features feature = featuresRepository.findById(featureId)
                 .orElseThrow(() -> new FeatureNotFoundException(featureId + " feature not found"));
-        return decodeToImage(String.valueOf(feature.getQuicklook()));
+        return decodeToImage(feature.getQuicklook());
     }
 
-    private static BufferedImage decodeToImage(String imageString) {
-        BufferedImage image = null;
-        byte[] imageByte;
+    private static byte[] decodeToImage(byte[] imageString) {
+        byte[] decodedBytes = new byte[0];
         try {
-            BASE64Decoder decoder = new BASE64Decoder();
-            imageByte = decoder.decodeBuffer(imageString);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-            image = ImageIO.read(bis);
-            bis.close();
+             decodedBytes = Base64.getDecoder().decode(imageString);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return decodedBytes;
     }
-    return image;
-}
+
+
 }

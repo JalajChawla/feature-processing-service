@@ -12,7 +12,7 @@ import java.util.List;
 public interface FeatureManagerService {
     List<FeaturesDto> fetchAllFeatures();
 
-    FeaturesDto fetchFeaturesById(Integer id) throws FeatureNotFoundException;
+    FeaturesDto fetchFeaturesById(Long id) throws FeatureNotFoundException;
 
-    BufferedImage fetchFeaturesImageById(Integer id) throws FeatureNotFoundException;
+    byte[] fetchFeaturesImageById(Long id) throws FeatureNotFoundException;
 }

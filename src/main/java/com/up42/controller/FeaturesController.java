@@ -2,14 +2,12 @@ package com.up42.controller;
 
 import com.up42.dto.FeaturesDto;
 import com.up42.service.FeatureManagerService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
@@ -31,15 +29,16 @@ public class FeaturesController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<FeaturesDto> fetchFeatureById(@PathVariable("id") Integer id)throws Exception{
+    public ResponseEntity<FeaturesDto> fetchFeatureById(@PathVariable("id") Long id)throws Exception{
         FeaturesDto features=service.fetchFeaturesById(id);
         return new ResponseEntity<FeaturesDto>(features,HttpStatus.OK);
     }
 
-    @GetMapping("{id}/quicklook")
-    public ResponseEntity<BufferedImage> fetchFeaturesImageById(@PathVariable("id") Integer id)throws Exception{
-        BufferedImage image=service.fetchFeaturesImageById(id);
-        return new ResponseEntity<BufferedImage>(image,HttpStatus.OK);
+    @ResponseBody
+    @GetMapping(value="{id}/quicklook", produces= MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> fetchFeaturesImageById(@PathVariable("id") Long id)throws Exception{
+        byte[] b=service.fetchFeaturesImageById(id);
+        return new ResponseEntity<byte[]>(b, HttpStatus.OK);
     }
 
 }

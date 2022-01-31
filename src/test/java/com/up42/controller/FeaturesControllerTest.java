@@ -1,18 +1,28 @@
 package com.up42.controller;
 
+import com.up42.dto.FeatureDto;
+import com.up42.dto.FeaturesDto;
+import com.up42.service.FeatureManagerService;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import static org.mockito.Mockito.*;
 
 public class FeaturesControllerTest {
     @Mock
-    com.up42.service.FeatureManagerService service;
+    FeatureManagerService service;
     @InjectMocks
-    com.up42.controller.FeaturesController featuresController;
+    FeaturesController featuresController;
 
     @Before
     public void setUp() {
@@ -21,27 +31,17 @@ public class FeaturesControllerTest {
 
     @Test
     public void testFetchAllFeatures() throws Exception {
-        when(service.fetchAllFeatures()).thenReturn(java.util.Arrays.<com.up42.dto.FeaturesDto>asList(new com.up42.dto.FeaturesDto()));
+        when(service.fetchAllFeatures()).thenReturn(Collections.<FeaturesDto>singletonList(new FeaturesDto()));
 
-        org.springframework.http.ResponseEntity<java.util.List<com.up42.dto.FeaturesDto>> result = featuresController.fetchAllFeatures();
-        Assert.assertEquals(null, result);
+        ResponseEntity<List<FeaturesDto>> result = featuresController.fetchAllFeatures();
+        Assert.assertEquals(1, Objects.requireNonNull(result.getBody()).size());
     }
 
     @Test
     public void testFetchFeatureById() throws Exception {
-        when(service.fetchFeaturesById(anyLong())).thenReturn(new com.up42.dto.FeaturesDto());
+        when(service.fetchFeaturesById(anyLong())).thenReturn(new FeaturesDto());
 
-        org.springframework.http.ResponseEntity<com.up42.dto.FeaturesDto> result = featuresController.fetchFeatureById(Long.valueOf(1));
-        Assert.assertEquals(null, result);
-    }
-
-    @Test
-    public void testFetchFeaturesImageById() throws Exception {
-        when(service.fetchFeaturesImageById(anyLong())).thenReturn(new byte[]{(byte) 0});
-
-        org.springframework.http.ResponseEntity<byte> result = featuresController.fetchFeaturesImageById(Long.valueOf(1));
-        Assert.assertEquals(null, result);
+        ResponseEntity<FeaturesDto> result = featuresController.fetchFeatureById(1L);
+        Assert.assertEquals(new FeaturesDto().getId(), Objects.requireNonNull(result.getBody()).getId());
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

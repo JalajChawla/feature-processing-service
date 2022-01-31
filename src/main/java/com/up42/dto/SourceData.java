@@ -1,14 +1,13 @@
 package com.up42.dto;
 
-import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * @author jalajchawla
  */
-@Builder
+@Data
 public class SourceData {
-    private String type;
     private List<FeatureDto> features;
 }

@@ -1,12 +1,15 @@
 package com.up42.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.sql.Blob;
+/**
+ * @author jalajchawla
+ */
 @Data
 public class PropertyDto {
-    private String id;
+    @JsonProperty("timestamp")
     private long timeStamp;
-    private Blob quicklook;
+    private byte[] quicklook;
     private AcquisitionDto acquisition;
 }

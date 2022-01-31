@@ -1,17 +1,13 @@
 package com.up42.service;
 
+import com.up42.dto.FeatureDto;
 import com.up42.dto.FeaturesDto;
+import com.up42.dto.SourceData;
 import com.up42.entity.Features;
 import com.up42.exception.FeatureNotFoundException;
 import com.up42.repo.FeaturesRepository;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -32,6 +28,10 @@ public class FeaturesManagerServiceImpl implements FeatureManagerService {
                 .orElseThrow(() -> new FeatureNotFoundException(featureId + " feature not found"));
         convertFeatureToFeatureDto(feature);
         return convertFeatureToFeatureDto(feature);
+    }
+
+    public void saveFeature(Features feature) {
+         featuresRepository.save(feature);
     }
 
     private FeaturesDto convertFeatureToFeatureDto(Features feature){
@@ -57,6 +57,23 @@ public class FeaturesManagerServiceImpl implements FeatureManagerService {
         Features feature = featuresRepository.findById(featureId)
                 .orElseThrow(() -> new FeatureNotFoundException(featureId + " feature not found"));
         return decodeToImage(feature.getQuicklook());
+    }
+
+    @Override
+    public void save(List<SourceData> sourceList) {
+        for(SourceData source:sourceList){
+            List<FeatureDto> features = source.getFeatures();
+            features.forEach(featureDto -> {
+                long timeStamp = featureDto.getProperties().getTimeStamp();
+                Features feature = new Features();
+                feature.setTimestamp(timeStamp);
+                feature.setBeginViewingDate(featureDto.getProperties().getAcquisition().getBeginViewingDate());
+                feature.setEndViewingDate(featureDto.getProperties().getAcquisition().getEndViewingDate());
+                feature.setMissionName(featureDto.getProperties().getAcquisition().getMissionName());
+                feature.setQuicklook(featureDto.getProperties().getQuicklook());
+                saveFeature(feature);
+            });
+        }
     }
 
     private static byte[] decodeToImage(byte[] imageString) {

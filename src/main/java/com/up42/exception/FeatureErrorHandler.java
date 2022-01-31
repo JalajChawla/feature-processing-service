@@ -20,7 +20,6 @@ public class FeatureErrorHandler {
         log.info("FeatureErrorHandler.handleFeatureNotFound()");
         ErrorDetails details=new ErrorDetails(LocalDateTime.now(),tnf.getMessage(),"404- Feature Not Found");
         return new ResponseEntity<ErrorDetails>(details,HttpStatus.NOT_FOUND);
-
     }
 
     @ExceptionHandler(Exception.class)

@@ -76,10 +76,10 @@ public class FeaturesManagerServiceImpl implements FeatureManagerService {
         }
     }
 
-    private static byte[] decodeToImage(byte[] imageString) {
+    private static byte[] decodeToImage(byte[] byteString) {
         byte[] decodedBytes = new byte[0];
         try {
-             decodedBytes = Base64.getDecoder().decode(imageString);
+             decodedBytes = Base64.getDecoder().decode(byteString);
         } catch (Exception e) {
             e.printStackTrace();
         }

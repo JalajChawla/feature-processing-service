@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.up42.dto.SourceData;
 import com.up42.service.FeatureManagerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author jalajchawla
  */
 @SpringBootApplication
+@Slf4j
 public class FeatureProcessingServiceApplication {
 
     public static void main(String[] args) {
@@ -34,7 +36,7 @@ public class FeatureProcessingServiceApplication {
                 List<SourceData> users = mapper.readValue(inputStream,typeReference);
                 featureManagerService.save(users);
             } catch (IOException e){
-                System.out.println("Unable to save features: " + e.getMessage());
+                log.info("Unable to save features: " + e.getMessage());
             }
         };
     }

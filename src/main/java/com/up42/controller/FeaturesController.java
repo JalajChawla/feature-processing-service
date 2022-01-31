@@ -37,8 +37,8 @@ public class FeaturesController {
     @ResponseBody
     @GetMapping(value="{id}/quicklook", produces= MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> fetchFeaturesImageById(@PathVariable("id") Long id)throws Exception{
-        byte[] b=service.fetchFeaturesImageById(id);
-        return new ResponseEntity<byte[]>(b, HttpStatus.OK);
+        byte[] imageBytes=service.fetchFeaturesImageById(id);
+        return new ResponseEntity<byte[]>(imageBytes, HttpStatus.OK);
     }
 
 }
